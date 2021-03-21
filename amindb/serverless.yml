@@ -23,10 +23,25 @@ provider:
   #environment:
   #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
 
+  environment:
+    tableName: amInfo
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeTable
+      Resource: "arn:aws:dynamodb:us-east-1:*:*"
+
 functions:
-  start:
-    handler: handler.start
+  createnote:
+    handler: createnote.main
     events:
       - http:
-          path: start
-          method: get
+          path: notes
+          method: post
